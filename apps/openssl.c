@@ -101,6 +101,7 @@ static char *make_config_name(void)
     size_t len;
     char *p;
 
+#ifndef __amigaos4__
     if ((t = getenv("OPENSSL_CONF")) != NULL)
         return OPENSSL_strdup(t);
 
@@ -114,6 +115,9 @@ static char *make_config_name(void)
     strcat(p, OPENSSL_CONF);
 
     return p;
+#else
+    return OPENSSL_strdup("OpenSSL:" OPENSSL_CONF);
+#endif    
 }
 
 int main(int argc, char *argv[])

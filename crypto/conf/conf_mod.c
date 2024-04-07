@@ -486,6 +486,7 @@ char *CONF_get1_default_config_file(void)
     if ((file = ossl_safe_getenv("OPENSSL_CONF")) != NULL)
         return OPENSSL_strdup(file);
 
+#ifndef __amigaos4__
     len = strlen(X509_get_default_cert_area());
 #ifndef OPENSSL_SYS_VMS
     len++;
@@ -501,6 +502,9 @@ char *CONF_get1_default_config_file(void)
                  sep, OPENSSL_CONF);
 
     return file;
+#else
+    return OPENSSL_strdup("OpenSSL:" OPENSSL_CONF);
+#endif
 }
 
 /*

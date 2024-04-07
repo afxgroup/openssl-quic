@@ -34,7 +34,7 @@ static int idx;
  * in things not being fully reproducible and have a slightly
  * different coverage.
  */
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__amigaos4__)
 time_t time(time_t *t) TIME_IMPL(t)
 #endif
 

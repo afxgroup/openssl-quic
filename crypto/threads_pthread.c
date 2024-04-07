@@ -180,7 +180,7 @@ int CRYPTO_atomic_add(int *val, int amount, int *ret, CRYPTO_RWLOCK *lock)
     return 1;
 }
 
-# ifdef OPENSSL_SYS_UNIX
+#if defined(OPENSSL_SYS_UNIX) && !defined(OPENSSL_SYS_AMIGAOS4)
 static pthread_once_t fork_once_control = PTHREAD_ONCE_INIT;
 
 static void fork_once_func(void)
@@ -192,7 +192,7 @@ static void fork_once_func(void)
 
 int openssl_init_fork_handlers(void)
 {
-# ifdef OPENSSL_SYS_UNIX
+#if defined(OPENSSL_SYS_UNIX) && !defined(OPENSSL_SYS_AMIGAOS4)
     if (pthread_once(&fork_once_control, fork_once_func) == 0)
         return 1;
 # endif

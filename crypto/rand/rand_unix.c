@@ -513,14 +513,17 @@ static int wait_random_seeded(void)
  */
 static int check_random_device(struct random_device * rd)
 {
+#ifndef __amigaos4__
     struct stat st;
-
     return rd->fd != -1
            && fstat(rd->fd, &st) != -1
            && rd->dev == st.st_dev
            && rd->ino == st.st_ino
            && ((rd->mode ^ st.st_mode) & ~(S_IRWXU | S_IRWXG | S_IRWXO)) == 0
            && rd->rdev == st.st_rdev;
+#else
+    return rd->fd != -1;
+#endif
 }
 
 /*

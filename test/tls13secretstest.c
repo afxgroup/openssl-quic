@@ -136,12 +136,14 @@ static unsigned char server_ats_iv[] = {
 };
 
 /* Mocked out implementations of various functions */
+static int full_hash = 0;
+#ifndef __amigaos4__
+
 int ssl3_digest_cached_records(SSL *s, int keep)
 {
     return 1;
 }
 
-static int full_hash = 0;
 
 /* Give a hash of the currently set handshake */
 int ssl_handshake_hash(SSL *s, unsigned char *out, size_t outlen,
@@ -222,7 +224,7 @@ int quic_set_encryption_secrets(SSL *ssl, OSSL_ENCRYPTION_LEVEL level)
     return 1;
 }
 #endif
-
+#endif
 /* End of mocked out code */
 
 static int test_secret(SSL *s, unsigned char *prk,

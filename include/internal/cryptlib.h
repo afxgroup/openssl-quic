@@ -53,12 +53,24 @@ DEFINE_LHASH_OF(MEM);
 
 # define OPENSSL_CONF             "openssl.cnf"
 
-# ifndef OPENSSL_SYS_VMS
+# if !defined(OPENSSL_SYS_VMS) && !defined(OPENSSL_SYS_AMIGAOS4)
 #  define X509_CERT_AREA          OPENSSLDIR
 #  define X509_CERT_DIR           OPENSSLDIR "/certs"
 #  define X509_CERT_FILE          OPENSSLDIR "/cert.pem"
 #  define X509_PRIVATE_DIR        OPENSSLDIR "/private"
 #  define CTLOG_FILE              OPENSSLDIR "/ct_log_list.cnf"
+#elif defined(OPENSSL_SYS_AMIGAOS4)
+#  undef OPENSSLDIR
+#  undef ENGINESDIR
+#  undef MODULESDIR
+#  define OPENSSLDIR           "OpenSSL:"
+#  define X509_CERT_AREA          OPENSSLDIR
+#  define X509_CERT_DIR           OPENSSLDIR "Certs"
+#  define X509_CERT_FILE          OPENSSLDIR "cert.pem"
+#  define X509_PRIVATE_DIR        OPENSSLDIR "private"
+#  define CTLOG_FILE              OPENSSLDIR "ct_log_list.cnf"
+#  define ENGINESDIR              OPENSSLDIR "Engines"
+#  define MODULESDIR              OPENSSLDIR "Modules"
 # else
 #  define X509_CERT_AREA          "OSSL$DATAROOT:[000000]"
 #  define X509_CERT_DIR           "OSSL$DATAROOT:[CERTS]"

@@ -27,7 +27,11 @@
  * set this to a comma-separated list of 'random' device files to try out. By
  * default, we will try to read at least one of these files
  */
+#ifdef __amigaos4__
+# define DEVRANDOM "RANDOM:"
+#else
 #  define DEVRANDOM "/dev/urandom", "/dev/random", "/dev/hwrng", "/dev/srandom"
+#endif
 #  if defined(__linux) && !defined(__ANDROID__)
 #   ifndef DEVRANDOM_WAIT
 #    define DEVRANDOM_WAIT   "/dev/random"
@@ -296,8 +300,11 @@ extern FILE *_imp___iob;
 #    include <io.h>
 #    include <fcntl.h>
 #   endif
-
+#ifndef __amigaos4__
 #   define LIST_SEPARATOR_CHAR ':'
+#else
+#   define LIST_SEPARATOR_CHAR ';'
+#endif
 #   define EXIT(n)             exit(n)
 #  endif
 
